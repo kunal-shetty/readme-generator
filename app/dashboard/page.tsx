@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Galaxy from "@/components/Galaxy";
-import DotGrid from '@/components/DotGrid';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
