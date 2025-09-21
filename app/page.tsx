@@ -424,7 +424,7 @@ export default function Landing() {
             </div>
             
             <div className="flex items-center space-x-6 text-gray-400">
-              <span className="text-sm text-muted-foreground">© 2025 Made by Kunal</span>
+              <span className="text-sm text-muted-foreground">© 2025 Made by <a href="https://github.com/kunal-shetty">Kunal</a></span>
             </div>
           </div>
         </div>
