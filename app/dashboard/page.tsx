@@ -11,7 +11,15 @@ import { motion } from "framer-motion";
 export default function Dashboard() {
   const [isDark, setIsDark] = useState(false);
   const [username, setUsername] = useState("");
-  const [repos, setRepos] = useState<any[]>([]);
+  interface Repo {
+  id: number;
+  name: string;
+  html_url: string;
+  description: string | null;
+}
+
+const [repos, setRepos] = useState<Repo[]>([]);
+
   const [selectedRepos, setSelectedRepos] = useState<string[]>([]);
   const [readme, setReadme] = useState("");
   const [socials, setSocials] = useState({

@@ -328,7 +328,7 @@ export default function Landing() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  We'll fetch your public profile and non-fork repos in seconds.
+                  {"We'll fetch your public profile and non-fork repos in seconds."}
                 </CardContent>
               </Card>
             </motion.div>
@@ -387,7 +387,7 @@ export default function Landing() {
               Level Up Your Profile 🚀
             </h2>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Showcase your work with a polished README that's easy to maintain and looks great in light or dark mode.
+              {"Showcase your work with a polished README that's easy to maintain and looks great in light or dark mode."}
             </p>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
