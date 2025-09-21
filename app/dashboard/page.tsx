@@ -5,12 +5,14 @@ import Galaxy from "@/components/Galaxy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Moon, Sun, ArrowLeft, Copy , Code} from "lucide-react";
+import { Moon, Sun, ArrowLeft, Copy , Code, RotateCcw} from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Dashboard() {
   const [isDark, setIsDark] = useState(false);
   const [username, setUsername] = useState("");
+  const [title, setTitle] = useState(""); 
+  const [location, setLocation] = useState("");
   interface Repo {
   id: number;
   name: string;
@@ -29,7 +31,7 @@ const [repos, setRepos] = useState<Repo[]>([]);
   });
   const [techInput, setTechInput] = useState("");
   const [techStack, setTechStack] = useState<string[]>([]);
-  const [step, setStep] = useState<"username" | "repos" | "details" | "readme">(
+  const [step, setStep] = useState<"loading" | "username" | "repos" | "title" | "details" | "readme">(
     "username"
   );
 
@@ -49,17 +51,25 @@ const [repos, setRepos] = useState<Repo[]>([]);
     }
   }, [isDark]);
 
-  const fetchRepos = async () => {
-    if (!username) return;
-    try {
-      const res = await fetch(`https://api.github.com/users/${username}/repos`);
-      const data = await res.json();
-      setRepos(data);
-      setStep("repos");
-    } catch {
-      alert("Failed to fetch repositories.");
+ const fetchRepos = async () => {
+  if (!username) return;
+
+  try {
+    const res = await fetch(`https://api.github.com/users/${username}/repos`);
+
+    // Check if the response is OK (status 200–299)
+    if (!res.ok) {
+      throw new Error(`GitHub API returned ${res.status}: ${res.statusText}`);
     }
-  };
+
+    const data = await res.json();
+    setRepos(data);
+    setStep("repos");
+  } catch (error) {
+    alert(`User does not exist.`);
+  }
+};
+
 
   const toggleRepo = (repoName: string) => {
     if (selectedRepos.includes(repoName)) {
@@ -77,6 +87,19 @@ const [repos, setRepos] = useState<Repo[]>([]);
       setTechInput("");
     }
   };
+
+  const loadingMessages = [
+  "Compiling code snippets...",
+  "Generating badges and stats...",
+  "Adding some magic... ✨",
+  "Checking GitHub activity...",
+  "Almost there...",
+  "Polishing README pixels...",
+  "Counting commits...",
+  "Arranging badges in style...",
+  "Formatting your README...",
+];
+
   const colors = [
   "bg-red-500",
   "bg-green-500",
@@ -88,6 +111,122 @@ const [repos, setRepos] = useState<Repo[]>([]);
   "bg-teal-500",
   "bg-orange-500",
 ];
+const techColors = {
+  // Web / Frontend
+  HTML: "#E34F26",
+  CSS: "#1572B6",
+  JavaScript: "#F7DF1E",
+  TypeScript: "#3178C6",
+  React: "#61DAFB",
+  Vue: "#4FC08D",
+  Angular: "#DD0031",
+  Svelte: "#FF3E00",
+  TailwindCSS: "#38B2AC",
+  Sass: "#CC6699",
+  Bootstrap: "#7952B3",
+  jQuery: "#0769AD",
+
+  // Backend / General-purpose
+  Python: "#3776AB",
+  Django: "#092E20",
+  Flask: "#000000",
+  Ruby: "#CC342D",
+  Rails: "#CC0000",
+  Java: "#007396",
+  Spring: "#6DB33F",
+  Kotlin: "#0095D5",
+  Swift: "#FA7343",
+  C: "#A8B9CC",
+  "C++": "#00599C",
+  CSharp: "#239120",
+  Go: "#00ADD8",
+  PHP: "#777BB4",
+  Laravel: "#FF2D20",
+  NodeJS: "#339933",
+  ExpressJS: "#000000",
+  Rust: "#000000",
+  Elixir: "#6E4A7E",
+  Scala: "#DC322F",
+  Perl: "#39457E",
+  Haskell: "#5E5086",
+  R: "#276DC3",
+  Julia: "#9558B2",
+  Dart: "#0175C2",
+  ObjectiveC: "#438EFF",
+  FSharp: "#b845fc",
+  Groovy: "#4298B8",
+  Shell: "#89E051",
+  PowerShell: "#012456",
+  Bash: "#4EAA25",
+  Solidity: "#AA6746",
+  VBA: "#867DB1",
+  COBOL: "#005CA9",
+  Fortran: "#4D41B1",
+
+  // Databases / Query Languages
+  SQL: "#F29111",
+  MySQL: "#4479A1",
+  PostgreSQL: "#336791",
+  MongoDB: "#47A248",
+  Redis: "#DC382D",
+  SQLite: "#003B57",
+  OracleSQL: "#F80000",
+  Cassandra: "#1280A1",
+
+  // Data Science / ML
+  MATLAB: "#0076A8",
+  TensorFlow: "#FF6F00",
+  PyTorch: "#EE4C2C",
+  Pandas: "#150458",
+  NumPy: "#013243",
+  RLang: "#276DC3",
+
+  // Mobile
+  Android: "#3DDC84",
+  iOS: "#000000",
+  ReactNative: "#61DAFB",
+  Flutter: "#02569B",
+
+  // DevOps / Cloud / Tools
+  Docker: "#2496ED",
+  Kubernetes: "#326CE5",
+  AWS: "#FF9900",
+  GitHubActions: "#2088FF",
+  Git: "#F05032",
+  Jenkins: "#D24939",
+  Terraform: "#7B42BC",
+  Vercel: "#000000",
+  Netlify: "#00C7B7",
+
+  // Misc / Scripting
+  HTML5: "#E34F26",
+  CSS3: "#1572B6",
+  Lua: "#000080",
+
+  // Legacy / Historical
+  Pascal: "#E3F171",
+  Ada: "#02F88C",
+  Smalltalk: "#596706",
+  Lisp: "#3FB68B",
+  Prolog: "#74283C",
+  Logo: "#EFAB29",
+  ML: "#1E4099",
+  Scheme: "#1e4aec",
+  Assembly: "#6E4C13",
+  BASIC: "#FF0000",
+  VBScript: "#1D3F95",
+};
+const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentMessage(prev => {
+      const currentIndex = loadingMessages.indexOf(prev);
+      return loadingMessages[(currentIndex + 1) % loadingMessages.length];
+    });
+  }, 1500); // change message every 1.2s
+  return () => clearInterval(interval);
+}, []);
 
 const getColorForTech = (tech: string) => {
   let hash = 0;
@@ -96,13 +235,36 @@ const getColorForTech = (tech: string) => {
   }
   return colors[Math.abs(hash) % colors.length];
 };
+const selectRandomDescription = () => {
+    const descriptions = [
+  "💻 A full-stack developer with a passion for building modern, scalable, and user-friendly applications. ⚡ Enjoys working across both frontend and backend, experimenting with new technologies, and solving complex problems with simple, efficient solutions. 📚 Constantly learning, exploring new frameworks, and aiming to make a real-world impact through work.",
+  
+  "☕ A curious mind who loves coding, creativity, and coffee. 🛠️ Spends time experimenting with new tech, creating fun projects, and exploring different ideas that push growth. 💬 Outside of coding, enjoys conversations, brainstorming, and sharing experiences with like-minded people.",
+  
+  "🎨 Sees technology as both art and logic — a way to design experiences people enjoy while solving real problems. ✨ Loves building sleek user interfaces, experimenting with AI-powered tools, and working on projects that blend creativity with functionality. 🌱 Views every project as a chance to learn, grow, and create something meaningful.",
+  
+  "📖 Learner • 🏗️ Builder • 🤔 Problem Solver 🚀 Believes in continuous growth and exploring new possibilities through technology. 🔧 Whether it’s coding, creating digital tools, or learning something new, enjoys challenging themselves and turning ideas into reality.",
+  
+  "🌍 Dreams big but moves step by step every day. 💡 Passionate about coding, problem-solving, and using technology to create solutions that inspire change. 🌱 Believes growth isn’t about being perfect — it’s about learning, experimenting, and becoming better than yesterday ✨.",
+  
+  "🤝 A tech enthusiast who thrives on teamwork, collaboration, and sharing knowledge. 💭 Loves brainstorming ideas, building projects with others, and learning from challenges along the way. 🌐 Believes technology isn’t just about code — it’s about connecting with people and creating something valuable together.",
+  
+  "👋 A mix of code, coffee, and curiosity ☕💻. 🎯 Enjoys experimenting with tech, building side projects, and exploring creative ideas whenever inspiration strikes. 🔍 Also values learning new perspectives, talking about random ideas, and keeping things fun while chasing growth 🚀."
+];
+
+    return descriptions[Math.floor(Math.random() * descriptions.length)]; 
+      }
   const generateReadme = () => {
+  // Optional: briefly clear content for refresh effect
+  setReadme(""); // clears current README
+  setStep("loading"); // optional: show loading state
+
+  setTimeout(() => {
     const selectedRepoObjs = repos.filter(r => selectedRepos.includes(r.name));
 
     const repoSection = selectedRepoObjs
       .map(
-        r =>
-          `- **[${r.name}](${r.html_url})** – ${r.description || "No description"}`
+        r => `- **[${r.name}](${r.html_url})** – ${r.description || "No description"}`
       )
       .join("\n");
 
@@ -123,7 +285,7 @@ const getColorForTech = (tech: string) => {
         tech =>
           `![${tech}](https://img.shields.io/badge/${encodeURIComponent(
             tech
-          )}-blue?style=for-the-badge&logo=${encodeURIComponent(
+          )}-${techColors[tech]?.slice(1) || "gray"}?style=for-the-badge&logo=${encodeURIComponent(
             tech
           )}&logoColor=white)`
       )
@@ -132,14 +294,11 @@ const getColorForTech = (tech: string) => {
     const content = `
 <div align="center">
 
-# Hi, I'm ${username}! 👋  
+# Hi, I'm ${username}! 👋 
 
-**Your Title / Role Here**
+## ${title} residing in ${location} 
 
-💡 Brief description about yourself  
-🌱 Learning / exploring section  
-🚀 Passion / interests  
-🎯 Skills / main technologies  
+${selectRandomDescription()}
 
 ---
 
@@ -148,38 +307,62 @@ ${socialBadges}
 
 ---
 
-## Tech Stack  
+## Technologies I Work With 
 ${techBadges}
 
 ---
 
-## Featured Projects  
+## Highlighted Projects
 ${repoSection}
 
 ---
 
 ## GitHub Stats  
 <img src="https://github-readme-stats.vercel.app/api?username=${username}&theme=dark&hide_border=false&include_all_commits=false&count_private=false" height="160px"/>  
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&theme=dark&hide_border=false&include_all_commits=false&count_private=false&layout=compact" height="160px"/>  
+<img src="https://img-readme-stats.vercel.app/api/top-langs/?username=${username}&theme=dark&hide_border=false&include_all_commits=false&layout=compact" height="160px"/>  
 
 ---
 
-<p align="center">
-  <a href="https://visitcount.itsvg.in">
-    <img src="https://visitcount.itsvg.in/api?id=${username}&icon=0&color=0" />
-  </a>
-</p>
-
 </div>
     `;
+
     setReadme(content);
-    setStep("readme");
-  };
+    setStep("readme"); // switch back to readme view
+  }, 9000);
+};
+const [toastMessage, setToastMessage] = useState("");
+
+const Toast = ({ message, duration = 2000, onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(onClose, duration);
+    return () => clearTimeout(timer);
+  }, [duration, onClose]);
 
   return (
+    <div className="fixed bottom-5 right-10 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fadeIn z-50">
+      {message}
+    </div>
+  );
+};
+  return (
     <div className="min-h-screen flex flex-col relative text-foreground">
-      {isDark && <Galaxy className="absolute inset-0 -z-10 w-full h-full" />}
-
+  {/* Background */}
+  {isDark ? (
+    <Galaxy className="absolute inset-0 -z-10 w-full h-full" />
+  ) : (
+    <div className="absolute inset-0 -z-10 opacity-10">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px)
+          `,
+          backgroundSize: "50px 50px",
+        }}
+      />
+    </div>
+  )}
       {/* Navbar */}
       <nav
     className={`relative z-10 border-b backdrop-blur-sm ${
@@ -239,15 +422,21 @@ ${repoSection}
               <CardTitle>Enter GitHub Username</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <input
-                type="text"
-                placeholder="e.g. octocat"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                className="w-full border rounded px-3 py-2 bg-dark/300"
-              />
+             <input
+  type="text"
+  placeholder="e.g. octocat"
+  value={username}
+  onChange={e => {
+    const value = e.target.value;
+    // Only allow letters, numbers, hyphen
+    if (/^[a-zA-Z0-9-]*$/.test(value)) {
+      setUsername(value);
+    }
+  }}
+  className="w-full border rounded px-3 py-2 bg-dark/300"
+/>
               <Button
-  className={`w-full ${isDark ? "bg-gray-800 text-white hover:bg-gray-700" : "bg-black text-white hover:bg-black/90"}`}
+  className={`w-full ${isDark ? "bg-white text-black hover:bg-black-700" : "bg-black text-white hover:bg-black/90"}`}
   onClick={fetchRepos}
 >
   Fetch Repositories
@@ -255,8 +444,16 @@ ${repoSection}
             </CardContent>
           </Card>
         )}
+{/* Loading step */}
+{step === "loading" && (
+  <Card className="max-w-md w-full bg-dark/300">
+    
+    <CardContent className="space-y-3 flex flex-col items-center justify-center">
+  <span className="text-lg font-semibold">{currentMessage}</span>
+</CardContent>
+  </Card>
+)}
 
-        {/* Repos Step */}
         {/* Repos Step */}
 {step === "repos" && (
   <Card className="max-w-md w-full bg-dark/300">
@@ -278,14 +475,41 @@ ${repoSection}
           </label>
         ))}
       </div>
-      <Button className="w-full" onClick={() => setStep("details")}>
+      <Button className="w-full" onClick={() => setStep("title")}>
         Next
       </Button>
     </CardContent>
   </Card>
 )}
 
-
+        {/* Title Step */}
+        {step === "title" && (
+          <Card className="max-w-md w-full bg-dark/300">
+            <CardHeader>
+              <CardTitle>Enter Your Title/Role</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <input
+                type="text"
+                placeholder="e.g. Full Stack Developer"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              />
+              <input
+                type="text"
+                placeholder="e.g. Location (City, Country)" 
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              />
+              <Button className="w-full" onClick={() => setStep("details")}>  
+                Next
+              </Button>
+            </CardContent>
+          </Card>
+        )
+                }
         {/* Details Step */}
         {step === "details" && (
           <Card className="max-w-md w-full  bg-dark/300">
@@ -346,24 +570,41 @@ ${repoSection}
         )}
 
         {/* Readme Step */}
-        {step === "readme" && (
-          <Card className="max-w-5xl w-full">
-            <CardHeader>
-              <CardTitle>Your Generated README</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="whitespace-pre-wrap break-words font-mono text-base bg-gray-100 dark:bg-black/20 p-6 rounded-lg max-w-full overflow-x-auto">
-                {readme}
-              </pre>
-              <Button
-                className="mt-4"
-                onClick={() => navigator.clipboard.writeText(readme)}
-              >
-                <Copy className="mr-2 h-4 w-4" /> Copy to Clipboard
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+{step === "readme" && (
+  <Card className="max-w-5xl w-full">
+    <CardHeader>
+      <CardTitle>Your Generated README</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <pre className="whitespace-pre-wrap break-words font-mono text-base bg-gray-100 dark:bg-black/20 p-6 rounded-lg max-w-full overflow-x-auto">
+        {readme}
+      </pre>
+
+      {/* Buttons next to each other responsively */}
+      <div className="flex flex-col sm:flex-row gap-3 mt-4">
+        <Button
+          className="flex-1"
+          onClick={() => {
+            navigator.clipboard.writeText(readme);
+            setToastMessage("Copied to clipboard!");
+          }}
+        >
+          <Copy className="mr-2 h-4 w-4" /> Copy to Clipboard
+        </Button>
+
+        <Button className="flex-1" onClick={generateReadme}>
+          <RotateCcw className="mr-2 h-4 w-4" /> Regenerate
+        </Button>
+      </div>
+
+      {/* Toast */}
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage("")} />
+      )}
+    </CardContent>
+  </Card>
+)}
+
       </div>
     </div>
   );

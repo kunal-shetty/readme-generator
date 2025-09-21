@@ -211,7 +211,7 @@ export default function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 py-6 border-y border-amber-400/20">
+      <section className="relative z-10 py-6 border-y">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-2">
           <motion.div
             className="grid grid-cols-2 md:grid-cols-6 gap-8"
@@ -230,7 +230,7 @@ export default function Landing() {
                 viewport={{ once: true }}
               >
                 <div className="flex justify-center mb-3">
-                  <div className="p-3 bg-gradient-to-br from-amber-400/20 to-orange-500/20 rounded-lg border border-amber-400/30">
+                  <div className="p-3 bg-gradient-to-br from-amber-400/20 to-orange-500/20 rounded-lg border">
                     <div className="text-amber-400">
                       {stat.icon}
                     </div>
@@ -296,7 +296,7 @@ export default function Landing() {
       </section>
 
       {/* How It Works Section */}
-      <section className="relative z-10 py-24 border-t border-amber-400/20">
+      <section className="relative z-10 py-24 border-t">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-14"
@@ -322,7 +322,7 @@ export default function Landing() {
             >
               <Card className="bg-card border border-border h-full">
                 <CardHeader>
-                  <CardTitle className="text-xl">1. Enter Username ✍️</CardTitle>
+                  <CardTitle className="text-xl">1. Enter Basic Information</CardTitle>
                   <CardDescription>
                     Provide your GitHub handle and optional LinkedIn/Instagram links.
                   </CardDescription>
@@ -341,7 +341,7 @@ export default function Landing() {
             >
               <Card className="bg-card border border-border h-full">
                 <CardHeader>
-                  <CardTitle className="text-xl">2. Pick Projects ⭐</CardTitle>
+                  <CardTitle className="text-xl">2. Pick Projects</CardTitle>
                   <CardDescription>
                     Choose up to six repositories to feature prominently.
                   </CardDescription>
@@ -360,7 +360,7 @@ export default function Landing() {
             >
               <Card className="bg-card border border-border h-full">
                 <CardHeader>
-                  <CardTitle className="text-xl">3. Generate & Share 🚀</CardTitle>
+                  <CardTitle className="text-xl">3. Generate & Share </CardTitle>
                   <CardDescription>
                     Copy or download a polished README with badges, stats, and socials.
                   </CardDescription>
@@ -375,7 +375,7 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative z-10 py-32 border-t border-amber-400/20">
+      <section className="relative z-10 py-32 border-t">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

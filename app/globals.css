@@ -120,6 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+@keyframes dots {
+  0%, 20% { content: ""; }
+  40% { content: "."; }
+  60% { content: ".."; }
+  80%, 100% { content: "..."; }
+}
+
+.loading-dots::after {
+  content: "";
+  display: inline-block;
+  animation: dots 1.2s infinite steps(1, end);
+}
 
 /* Custom scrollbar only for repo list */
 .custom-scroll::-webkit-scrollbar {
