@@ -322,9 +322,8 @@ ${repoSection}
 
 ## GitHub Stats  
 <img src="https://github-readme-stats.vercel.app/api?username=${username}&theme=dark&hide_border=false&include_all_commits=false&count_private=false" height="160px"/>  
-<img src="https://img-readme-stats.vercel.app/api/top-langs/?username=${username}&theme=dark&hide_border=false&include_all_commits=false&layout=compact" height="160px"/>  
-
----
+<img src="https://nirzak-streak-stats.vercel.app/?user=${username}&theme=dark&hide_border=false" height="160px"/>
+--- 
 
 </div>
     `;
