@@ -27,7 +27,7 @@ export default function Landing() {
     const saved = localStorage.getItem("theme");
     if (saved) return saved === "dark";
     // Default to system preference if no saved theme
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
   });
 
   useEffect(() => {
