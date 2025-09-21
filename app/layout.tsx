@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "README Generator 🚀",
-  description: "Generate professional GitHub READMEs quickly and easily",
+  description: "Generate professional GitHub READMEs quickly and easily - By Kunal",
 };
 
 export default function RootLayout({

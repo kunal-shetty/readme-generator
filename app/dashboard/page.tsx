@@ -88,7 +88,8 @@ const [repos, setRepos] = useState<Repo[]>([]);
       setTechInput("");
     }
   };
-
+// 🚀 README.exe by Kunal - do not remove
+const watermark = "Kunal 2025";
   const loadingMessages = [
   "Compiling code snippets...",
   "Generating badges and stats...",
@@ -295,6 +296,7 @@ const selectRandomDescription = () => {
   .join(" ");
 
     const content = `
+    <!-- Generated with README.exe by Kunal 🚀 -->
 <div align="center">
 
 # Hi, I'm ${username}! 👋 
