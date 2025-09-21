@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Toast } from "@/components/ui/toast";
 import Galaxy from "@/components/Galaxy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -280,16 +281,18 @@ const selectRandomDescription = () => {
 </a>
 `;
 
-    const techBadges = techStack
-      .map(
-        tech =>
-          `![${tech}](https://img.shields.io/badge/${encodeURIComponent(
-            tech
-          )}-${techColors[tech]?.slice(1) || "gray"}?style=for-the-badge&logo=${encodeURIComponent(
-            tech
-          )}&logoColor=white)`
-      )
-      .join(" ");
+   const techBadges = techStack
+  .map((tech) => {
+    const color = techColors[tech as keyof typeof techColors] ?? "#808080"; // fallback gray
+    const colorWithoutHash = color.startsWith("#") ? color.slice(1) : color;
+
+    return `![${tech}](https://img.shields.io/badge/${encodeURIComponent(
+      tech
+    )}-${colorWithoutHash}?style=for-the-badge&logo=${encodeURIComponent(
+      tech
+    )}&logoColor=white)`;
+  })
+  .join(" ");
 
     const content = `
 <div align="center">
@@ -330,9 +333,13 @@ ${repoSection}
     setStep("readme"); // switch back to readme view
   }, 9000);
 };
-const [toastMessage, setToastMessage] = useState("");
-
-const Toast = ({ message, duration = 2000, onClose }) => {
+interface ToastProps {
+  message: string;
+  duration?: number; // in ms
+  onClose: () => void;
+}
+const[toastMessage, setToastMessage] = useState("");
+const Toast: React.FC<ToastProps> = ({ message, duration = 1000, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
@@ -583,24 +590,24 @@ const Toast = ({ message, duration = 2000, onClose }) => {
       {/* Buttons next to each other responsively */}
       <div className="flex flex-col sm:flex-row gap-3 mt-4">
         <Button
-          className="flex-1"
-          onClick={() => {
-            navigator.clipboard.writeText(readme);
-            setToastMessage("Copied to clipboard!");
-          }}
-        >
-          <Copy className="mr-2 h-4 w-4" /> Copy to Clipboard
-        </Button>
+  className="flex-1"
+  onClick={() => {
+    navigator.clipboard.writeText(readme);
+    setToastMessage("Copied to clipboard!");
+  }}
+>
+  <Copy className="mr-2 h-4 w-4" /> Copy to Clipboard
+</Button>
+
+{toastMessage && (
+  <Toast message={toastMessage} onClose={() => setToastMessage("")} />
+)}
+
 
         <Button className="flex-1" onClick={generateReadme}>
           <RotateCcw className="mr-2 h-4 w-4" /> Regenerate
         </Button>
       </div>
-
-      {/* Toast */}
-      {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage("")} />
-      )}
     </CardContent>
   </Card>
 )}
