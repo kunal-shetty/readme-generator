@@ -6,7 +6,7 @@ import Galaxy from "@/components/Galaxy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Moon, Sun, ArrowLeft, Copy , Code, RotateCcw} from "lucide-react";
+import { Moon, Sun, ArrowLeft, ArrowDown, Copy , Code, RotateCcw} from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Dashboard() {
@@ -333,6 +333,16 @@ ${repoSection}
     setStep("readme"); // switch back to readme view
   }, 9000);
 };
+
+const downloadReadme = () => {
+  const element = document.createElement("a");
+  const file = new Blob([readme], { type: "text/markdown" });
+  element.href = URL.createObjectURL(file);
+  element.download = `README.md`;
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
 interface ToastProps {
   message: string;
   duration?: number; // in ms
@@ -495,7 +505,7 @@ const Toast: React.FC<ToastProps> = ({ message, duration = 1000, onClose }) => {
             <CardHeader>
               <CardTitle>Enter Your Title/Role</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2">
               <input
                 type="text"
                 placeholder="e.g. Full Stack Developer"
@@ -503,6 +513,11 @@ const Toast: React.FC<ToastProps> = ({ message, duration = 1000, onClose }) => {
                 onChange={e => setTitle(e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
+              </CardContent>
+              <CardHeader>
+              <CardTitle>Enter Your Location</CardTitle>
+            </CardHeader>
+            <CardContent className="space y-2">
               <input
                 type="text"
                 placeholder="e.g. Location (City, Country)" 
@@ -510,6 +525,8 @@ const Toast: React.FC<ToastProps> = ({ message, duration = 1000, onClose }) => {
                 onChange={e => setLocation(e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
+              </CardContent>
+              <CardContent className="space y-3">
               <Button className="w-full" onClick={() => setStep("details")}>  
                 Next
               </Button>
@@ -603,7 +620,9 @@ const Toast: React.FC<ToastProps> = ({ message, duration = 1000, onClose }) => {
   <Toast message={toastMessage} onClose={() => setToastMessage("")} />
 )}
 
-
+<Button className="flex-1" onClick={downloadReadme}>
+    <ArrowDown className="mr-2 h-4 w-4" /> Download README
+  </Button>
         <Button className="flex-1" onClick={generateReadme}>
           <RotateCcw className="mr-2 h-4 w-4" /> Regenerate
         </Button>
