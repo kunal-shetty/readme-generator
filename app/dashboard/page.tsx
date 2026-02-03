@@ -6,10 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Moon, Sun, ArrowLeft, ArrowDown, Copy, Code, RotateCcw } from "lucide-react";
-import { Toast } from "@/components/ui/toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AnimatePresence, motion } from "framer-motion";
+
+const loadingMessages = [
+  "Compiling code snippets...",
+  "Generating badges and stats...",
+  "Adding some magic... ✨",
+  "Checking GitHub activity...",
+  "Almost there...",
+  "Polishing README pixels...",
+  "Counting commits...",
+  "Arranging badges in style...",
+  "Formatting your README...",
+];
+
 export default function Dashboard() {
   const [isDark, setIsDark] = useState(false);
   const [username, setUsername] = useState("");
@@ -84,8 +96,8 @@ export default function Dashboard() {
       if (!Array.isArray(data)) throw new Error("Invalid response from GitHub");
       setRepos(data);
       setStep("repos");
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch repositories");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to fetch repositories");
     }
   };
 
@@ -107,18 +119,6 @@ export default function Dashboard() {
     }
   };
   // 🚀 README.exe by Kunal - do not remove
-  const watermark = "Kunal 2025";
-  const loadingMessages = [
-    "Compiling code snippets...",
-    "Generating badges and stats...",
-    "Adding some magic... ✨",
-    "Checking GitHub activity...",
-    "Almost there...",
-    "Polishing README pixels...",
-    "Counting commits...",
-    "Arranging badges in style...",
-    "Formatting your README...",
-  ];
 
   const colors = [
     "bg-red-500",
@@ -237,7 +237,6 @@ export default function Dashboard() {
     VBScript: "#1D3F95",
   };
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentMessage(prev => {
