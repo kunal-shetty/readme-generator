@@ -152,3 +152,40 @@
   background: linear-gradient(to bottom, #f97316, #dc2626);
 }
 
+
+/* Premium Button Effects */
+.btn-primary-glow {
+  @apply relative overflow-hidden transition-all duration-300;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.btn-primary-glow:hover {
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary-glow::after {
+  content: "";
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%);
+}
+
+.btn-primary-glow:hover::after {
+  @apply opacity-100;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  @apply backdrop-blur-md border border-white/10 dark:border-white/5;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Smooth fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}

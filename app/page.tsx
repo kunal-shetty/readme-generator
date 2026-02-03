@@ -3,11 +3,11 @@ import Galaxy from '@/components/Galaxy';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { 
-  Github, 
-  Zap, 
-  Code, 
-  Star, 
+import {
+  Github,
+  Zap,
+  Code,
+  Star,
   Download,
   Users,
   Eye,
@@ -75,40 +75,43 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen relative overflow-hidden text-foreground">
-  {isDark && <Galaxy className="absolute inset-0 -z-10 w-full h-full" />}
-      {/* Grid Background */}
-      <div className="absolute inset-0 opacity-10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-            linear-gradient(color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px),
-            linear-gradient(90deg, color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px)
-          `,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </div>
+      {isDark && <Galaxy className="absolute inset-0 -z-10 w-full h-full" />}
+      {!isDark && (
+        <>
+          {/* Grid Background */}
+          <div className="absolute inset-0 opacity-10">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                linear-gradient(color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px),
+                linear-gradient(90deg, color-mix(in oklch, var(--primary) 30%, transparent) 1px, transparent 1px)
+              `,
+                backgroundSize: "50px 50px",
+              }}
+            />
+          </div>
 
-      {/* Subtle Scan Lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            background:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--primary) 40%, transparent) 2px, color-mix(in oklch, var(--primary) 40%, transparent) 4px)",
-          }}
-        />
-      </div>
+          {/* Subtle Scan Lines */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div
+              className="absolute inset-0 opacity-5"
+              style={{
+                background:
+                  "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--primary) 40%, transparent) 2px, color-mix(in oklch, var(--primary) 40%, transparent) 4px)",
+              }}
+            />
+          </div>
+        </>
+      )}
 
       {/* Navigation */}
       <nav
-    className={`relative z-10 border-b backdrop-blur-sm ${
-      isDark
-        ? "bg-black/400 text-white"
-        : "bg-background/80 border-background/80 text-black"
-    }`}
-  >
+        className={`relative z-10 border-b backdrop-blur-sm ${isDark
+          ? "bg-black/40 text-white"
+          : "bg-background/80 border-background/80 text-black"
+          }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <motion.div
@@ -117,7 +120,7 @@ export default function Landing() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center cursor-pointer" onClick={() => window.location.href = "/" }>
+              <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center cursor-pointer" onClick={() => window.location.href = "/"}>
                 <Code className="h-5 w-5 text-black" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
@@ -140,7 +143,7 @@ export default function Landing() {
                 />
               </div>
               <Button
-                onClick={() => window.location.href = "/dashboard"  }
+                onClick={() => window.location.href = "/dashboard"}
                 className="font-semibold"
               >
                 Dashboard
@@ -175,8 +178,8 @@ export default function Landing() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Create a professional and eye-catching GitHub profile README that instantly showcases who you are and what you do. 
-              Highlight your skills, programming languages, and key projects in a structured and visually appealing way.            
+              Create a professional and eye-catching GitHub profile README that instantly showcases who you are and what you do.
+              Highlight your skills, programming languages, and key projects in a structured and visually appealing way.
             </motion.p>
 
             <motion.div
@@ -185,26 +188,30 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <Button
-                onClick={() => window.location.href = "/dashboard"  }
-                size="lg"
-                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-black font-bold text-lg px-8 py-6"
-              >
-                <Sparkles className="mr-2 h-5 w-5" />
-                Start Generating
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={() => window.location.href = "/dashboard"}
+                  size="lg"
+                  className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-black font-bold text-lg px-8 py-6 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all duration-300"
+                >
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Start Generating
+                </Button>
+              </motion.div>
 
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-amber-400 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
-                onClick={() => {
-                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                <Eye className="mr-2 h-5 w-5" />
-                See Features
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-amber-400 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6 transition-all duration-300"
+                  onClick={() => {
+                    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  <Eye className="mr-2 h-5 w-5" />
+                  See Features
+                </Button>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -392,7 +399,7 @@ export default function Landing() {
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
-                onClick={() => window.location.href = "/dashboard" }
+                onClick={() => window.location.href = "/dashboard"}
                 size="lg"
                 className="font-semibold text-xl px-12 py-8"
               >
@@ -406,12 +413,11 @@ export default function Landing() {
 
       {/* Footer */}
       <footer
-  className={`relative z-10 border-t py-8 backdrop-blur-sm ${
-    isDark
-      ? "bg-black/400 text-white"
-      : "border-gray/100 bg-gray-50 text-black"
-  }`}
->
+        className={`relative z-10 border-t py-8 backdrop-blur-sm ${isDark
+          ? "bg-black/40 text-white"
+          : "border-gray/100 bg-gray-50 text-black"
+          }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
@@ -422,7 +428,7 @@ export default function Landing() {
                 README.exe
               </span>
             </div>
-            
+
             <div className="flex items-center space-x-6 text-gray-400">
               <span className="text-sm text-muted-foreground">© 2025 Made by <a href="https://github.com/kunal-shetty">Kunal</a></span>
             </div>
